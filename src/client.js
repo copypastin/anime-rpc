@@ -46,11 +46,7 @@ app.whenReady().then(() => {
     // Updates RPC
     setInterval(async () => {
         const currentURL = window.webContents.getURL();
-
-        // Prevents RPC from constantly trying to update
         if (lastURL == currentURL) return;
-
-        // Check for if client has been initiated
         if (!client) client = await initiateRPC();
 
 
@@ -105,7 +101,8 @@ app.whenReady().then(() => {
                 console.log(`[ARPC]: Failed to load ${currentURL}, going to homepage.`);
                 new Notification({
                     title: "ARPC | Something went wrong!",
-                    body: "Page was reloaded for your convience."
+                    body: "Page was reloaded for your convience.",
+                    icon: __dirname + './assets/arpc.png'
                 }).show();
             }
 
@@ -116,7 +113,7 @@ app.whenReady().then(() => {
                 details: `Watching ${data.title}`,
                 largeImageKey: data.picture,
                 largeImageText: data.genres.join(", "),
-                state: `Episode ${currentURL.split("ep-")[1]}` ?? `Episode ?`,
+                state: `Episode ${currentURL.split("ep-")[1] ?? '?'}`,
                 instance: true,
                 buttons: [
                     { label: `Github Repo`, url: repo },
