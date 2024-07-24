@@ -9,4 +9,4 @@ const linkFilter = (link) => {
 }
 
 
-module.exports = {linkFilter};
+module.exports = { linkFilter };

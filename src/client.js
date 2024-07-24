@@ -4,6 +4,7 @@ const { setRPC, initiateRPC } = require("./helpers/rpc");
 const { linkFilter } = require("./helpers/linkFilter");
 const URL = "https://anix.to/home";
 const URL2 = "https://anix.to/";
+const repo = "https://github.com/copypastin/better-anime-rpc";
 
 
 let client;
@@ -22,7 +23,7 @@ app.whenReady().then(() => {
         frame: true,
         alwaysOnTop: false,
         title: 'Anime Tracker',
-        icon: __dirname + './assets/swagCat.png',
+        icon: __dirname + './assets/arpc.png',
         webPreferences: {
             nodeIntegration: true,
             plugins: true,
@@ -38,7 +39,7 @@ app.whenReady().then(() => {
 
     //POPUP BLOCKER 
     window.webContents.setWindowOpenHandler(() => {
-        console.log('popup denied');
+        console.log('[ARPC]: popup denied');
         return { action: "deny" };
     });
 
@@ -65,7 +66,7 @@ app.whenReady().then(() => {
                 largeImageKey: 'https://github.com/user-attachments/assets/8418e968-60da-465e-9fb6-39d7bf7ae01c',
                 largeImageText: 'aaron was here',
                 instance: true,
-                buttons: [{ label: `Github Repo`, url: `https://github.com/copypastin/better-anime-rpc` }]
+                buttons: [{ label: `Github Repo`, url: repo }]
             }
 
             window.setTitle("Anime Tracker | Main Menu");
@@ -81,7 +82,7 @@ app.whenReady().then(() => {
                 largeImageText: "aaron was here",
                 instance: true,
                 buttons: [
-                    { label: `Github Repo`, url: `https://github.com/copypastin/better-anime-rpc`, }
+                    { label: `Github Repo`, url: repo, }
                 ],
             }
         }
@@ -91,16 +92,21 @@ app.whenReady().then(() => {
             let data;
 
             try {
+                /*
+                    The name of the title is burried in the URL, so we have to extract it
+                        ex. https://anix.to/anime/jujutsu-kaisen-2nd-season-ll3x3/ep-1
+                            "jujutsu kaisen 2nd season" is extracted
+                */
                 let obfsuTitle = currentURL.toString().split("/")[4].split("-").slice(0, -1).join(" ")
                 data = await getInfoFromName(obfsuTitle.replace(/[0-9]/g, ''))
             } catch (err) {
-                window.loadURL(URL);
                 session.defaultSession.clearStorageData([], {});
+                await window.loadURL(URL);
+                console.log(`[ARPC]: Failed to load ${currentURL}, going to homepage.`);
                 new Notification({
-                    title: "BARPC | Something went wrong!",
+                    title: "ARPC | Something went wrong!",
                     body: "Page was reloaded for your convience."
                 }).show();
-                console.log(`Failed to load ${currentURL}, going to homepage.`);
             }
 
             lastURL = currentURL;
@@ -113,7 +119,7 @@ app.whenReady().then(() => {
                 state: `Episode ${currentURL.split("ep-")[1]}` ?? `Episode ?`,
                 instance: true,
                 buttons: [
-                    { label: `Github Repo`, url: `https://github.com/copypastin/better-anime-rpc` },
+                    { label: `Github Repo`, url: repo },
                     {label: `${data.popularity} in Popularity`, url: `${data.url}`}, 
                 ],
                 startTimestamp: new Date().getTime()
