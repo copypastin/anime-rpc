@@ -62,7 +62,7 @@ app.whenReady().then(() => {
 
             RPCDetails = {
                 details: 'Main Menu',
-                largeImageKey: 'https://cdn.frankerfacez.com/emoticon/517943/4',
+                largeImageKey: 'https://github.com/user-attachments/assets/8418e968-60da-465e-9fb6-39d7bf7ae01c',
                 largeImageText: 'aaron was here',
                 instance: true,
                 buttons: [{ label: `Github Repo`, url: `https://github.com/copypastin/better-anime-rpc` }]
@@ -77,7 +77,7 @@ app.whenReady().then(() => {
 
             RPCDetails = {
                 details: `Browsing...`,
-                largeImageKey: 'https://cdn.frankerfacez.com/emoticon/517943/4',
+                largeImageKey: 'https://github.com/user-attachments/assets/8418e968-60da-465e-9fb6-39d7bf7ae01c',
                 largeImageText: "aaron was here",
                 instance: true,
                 buttons: [
